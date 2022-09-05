@@ -1,0 +1,48 @@
+parent's class
+
+class medicalDevice:
+    def __init__ (self, name, colour, number) -> None:
+        self.name = name
+        self.color = colour
+        self.number = number  
+    def increase_number(self):
+        self.number = self.number + 1
+        
+MD_1 = medicalDevice ('PCR','Red', 5) #polymerase chain reaction
+print(MD_1.number)
+MD_1.increase_number()
+print(MD_1.number)
+
+#Child class 1
+class Diagnostic(medicalDevice):
+    def __init__(self, name, colour, number, diagnostic_batch, diagnostic_shape)-> None: 
+        super().__init__ (name, colour, number)
+        self.diagnostic_batch = diagnostic_batch
+        self.diagnostic_shape = diagnostic_shape
+        
+Diagnostic_1 = Diagnostic('SPR', 'Brown', 8, '101B', 'Circular') #SPR is Surface plasmon resonance
+print(Diagnostic_1.number)
+
+#Child class 2
+class Implant(medicalDevice):
+    def __init__(self, name, colour, number, implant_batch, implant_size)-> None: 
+        super().__init__ (name, colour, number)
+        self.implant_batch = implant_batch
+        self.implant_size = implant_size
+        
+Implant1 = Implant('CVS', 'golden', 4, 'IM001', 'medium')
+print(Implant1.number)
+Implant1.increase_number()
+print(Implant1.number)
+
+#Objects
+Diagnostic_2 = Diagnostic('ELIZA', 'Green', 3, '114B', 'Rectangular')
+Implant2 = Implant('Renal', 'Silver', 11, 'IM004', 'Small')
+Diagnostic_3 = Diagnostic('imaging', 'white', 7, '190C', 'Square')
+
+print(Diagnostic_2.diagnostic_shape)
+print(Diagnostic_3.diagnostic_batch)
+print(Implant2.implant_size)
+
+
+
