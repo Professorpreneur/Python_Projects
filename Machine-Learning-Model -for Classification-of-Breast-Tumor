@@ -1,0 +1,80 @@
+#Classification of tumors into benign and malignant
+Procedures: 1. Datasets --> Data preprocessing --> Train-test split --> Logistic Regression Model
+
+#Import libraries and dependencies
+
+import numpy as np
+import pandas as pd
+import sklearn.datasets 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression 
+from sklearn.metrics import accuracy_score 
+
+#Data collection & processing
+#loading my data from sklearn 
+
+dataset_breast_cancer = sklearn.datasets.load_breast_cancer()
+print(dataset_breast_cancer)
+
+#loading into the dataframe
+data_frame = pd.DataFrame(dataset_breast_cancer.data, columns = dataset_breast_cancer.feature_names)
+
+#Loading and printing the target 
+data_frame['diagnosis'] = dataset_breast_cancer.target
+data_frame.tail()
+
+#Knowing the number of data
+data_frame.shape
+
+#Checking for Missing Values
+data_frame.isnull().sum()
+
+#Checking the distribution of target variable
+# 0--> Malignant 
+# 1--> Benign 
+
+data_frame['diagnosis'].value_counts()
+data_frame.groupby('diagnosis').mean()
+
+#Separating features and target columns
+X = data_frame.drop(columns='diagnosis',axis = 1)
+Y = data_frame['diagnosis']
+
+X.head()
+
+print(Y)
+
+#Data Splitting into test and training data (20% and 80% respectively)
+X_test, X_train, Y_test, Y_train = train_test_split(X, Y, test_size = 0.2, random_state = 2)
+print(X.shape, X_test.shape, X_train.shape)
+print (Y.shape, Y_test.shape, Y_train.shape)
+
+#Model Training (Logistic Regression Model)
+model = LogisticRegression()
+model.fit(X_train, Y_train)
+
+#Training Data Evaluation 
+
+#Level of Accuracy of training data
+Prediction_X_train = model.predict(X_train)
+Training_data_accuracy = accuracy_score(Y_train,Prediction_X_train)
+print ('Accuracy of training data =', Training_data_accuracy)
+
+#Level of Accuracy of test data
+Prediction_X_test = model.predict(X_test)
+Test_data_accuracy = accuracy_score(Y_test,Prediction_X_test)
+print ('Accuracy of test data =', Test_data_accuracy)
+
+#Constructing a predictive system
+
+input_data = (12.45, 15.7, 82.57, 477.1, 0.1278, 0.17, 0.1578, 0.08089, 0.2087, 0.07613, 0.3345, 0.8902, 2.217, 27.19, 0.00751, 0.03345, 0.03672, 0.01137, 0.02165, 0.005082, 15.47, 23.75, 103.4, 741.6, 0.1791, 0.5249, 0.5355, 0.1741, 0.3985, 0.1244)
+
+#Changing the input data into a numpy array
+np_of_input_data = np.asarray(input_data)
+
+#Reshape numpy array 
+Reshaped_input_data = np_of_input_data.reshape(1, -1) 
+
+#Prediction
+Tumor_prediction = model.predict(Reshaped_input_data)
+print(Tumor_prediction)
